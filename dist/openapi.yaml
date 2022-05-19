@@ -79,6 +79,72 @@ paths:
       security: []
       deprecated: false
 
+  /products:
+    get:
+      tags:
+        - Product
+      summary: "get all products"
+      parameters:
+        - name: Content-Type
+          in: header
+          description: ""
+          required: true
+          schema:
+            enum:
+              - application/json
+            type: string
+            example: application/json
+      responses:
+        '200':
+          description: A list of products
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/ArrayOfProducts'
+        '401':
+          description: Authorization information is missing or invalid.
+        '5XX':
+          description: Unexpected error.
+      security: []
+      deprecated: false
+  /products/{product:id}:
+    get:
+      tags:
+        - Product
+      summary: "show product details"
+      parameters:
+        - name: Content-Type
+          in: header
+          description: ""
+          required: true
+          schema:
+            enum:
+              - application/json
+            type: string
+            example: application/json
+        - name: product:id
+          in: path
+          description: "product id"
+          required: true
+          schema:
+            type: integer
+            example: 1
+      responses:
+        '200':
+          description: show product
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/Product'
+        '401':
+          description: Authorization information is missing or invalid.
+        '404':
+          description: A product with the specified ID was not found.
+        '5XX':
+          description: Unexpected error.
+      security: []
+      deprecated: false
+
 
 
 
@@ -199,11 +265,32 @@ components:
               type: "string"
             parent:
               type: "string"
-
     ArrayOfUsers:
       type: "array"
       items:
         $ref: '#/components/responses/User'
+    Product:
+      type: "object"
+      properties:
+        id:
+          type: "integer"
+        name:
+          type: "string"
+        price:
+          type: "integer"
+        links:
+          type: "object"
+          properties:
+            self:
+              type: "string"
+            parent:
+              type: "string"
+    ArrayOfProducts:
+      type: "array"
+      items:
+        $ref: '#/components/responses/Product'
+
+
 securitySchemes:
     BearerAuth:
       type: http
