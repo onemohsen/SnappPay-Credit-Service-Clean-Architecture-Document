@@ -12,8 +12,73 @@ paths:
 
   # auth
 
+  # users
+  /users:
+    get:
+      tags:
+        - User
+      summary: "get all users"
+      parameters:
+        - name: Content-Type
+          in: header
+          description: ""
+          required: true
+          schema:
+            enum:
+              - application/json
+            type: string
+            example: application/json
+      responses:
+        '200':
+          description: A list of users
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/ArrayOfUsers'
+        '401':
+          description: Authorization information is missing or invalid.
+        '5XX':
+          description: Unexpected error.
+      security: []
+      deprecated: false
+  /users/{user:id}:
+    get:
+      tags:
+        - User
+      summary: "show user details"
+      parameters:
+        - name: Content-Type
+          in: header
+          description: ""
+          required: true
+          schema:
+            enum:
+              - application/json
+            type: string
+            example: application/json
+        - name: user:id
+          in: path
+          description: "user id"
+          required: true
+          schema:
+            type: integer
+            example: 1
+      responses:
+        '200':
+          description: show user
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/User'
+        '401':
+          description: Authorization information is missing or invalid.
+        '404':
+          description: A user with the specified ID was not found.
+        '5XX':
+          description: Unexpected error.
+      security: []
+      deprecated: false
 
-  
 
 
 
@@ -114,7 +179,32 @@ components:
           type: "timestamp"
       xml:
         name: "Transaction"
-  securitySchemes:
+  responses:
+    User:
+      type: "object"
+      properties:
+        id:
+          type: "integer"
+        name:
+          type: "string"
+        email:
+          type: "string"
+        wallet_balance:
+          type: "integer"
+          format: "int64"
+        links:
+          type: "object"
+          properties:
+            self:
+              type: "string"
+            parent:
+              type: "string"
+
+    ArrayOfUsers:
+      type: "array"
+      items:
+        $ref: '#/components/responses/User'
+securitySchemes:
     BearerAuth:
       type: http
       scheme: bearer
