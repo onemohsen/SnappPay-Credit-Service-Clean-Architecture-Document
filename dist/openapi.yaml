@@ -1,0 +1,132 @@
+openapi: "3.0.1"
+info:
+  title: SnappPay Credit Service
+  contact: {}
+  version: "1.0"
+  description: SnappPay Credit Service api documentation for developers
+servers:
+  - url: http://snapp-pay-credit-service.test/api/v1
+  - url: http://localhost:8000/api/v1
+
+paths:
+
+  # auth
+
+
+  
+
+
+
+components:
+  schemas:
+    User:
+      type: "object"
+      properties:
+        id:
+          type: "integer"
+          format: "int64"
+        name:
+          type: "string"
+        email:
+          type: "string"
+        wallet_balance:
+          type: "integer"
+          format: "int64"
+        email_verifed_at:
+          type: "timestamp"
+        password:
+          type: "string"
+        rember_token:
+          type: "string"
+        deleted_at:
+          type: "timestamp"
+        created_at:
+          type: "timestamp"
+        updated_at:
+          type: "timestamp"
+      xml:
+        name: "User"
+    Product:
+      type: "object"
+      properties:
+        id:
+          type: "integer"
+          format: "int64"
+        name:
+          type: "string"
+        price:
+          type: "integer"
+        deleted_at:
+          type: "timestamp"
+        created_at:
+          type: "timestamp"
+        updated_at:
+          type: "timestamp"
+      xml:
+        name: "Product"
+    CreditPackage:
+      type: "object"
+      properties:
+        id:
+          type: "integer"
+          format: "int64"
+        name:
+          type: "string"
+        price:
+          type: "integer"
+        payment_deadline_by_days:
+          type: "integer"
+        deleted_at:
+          type: "timestamp"
+        created_at:
+          type: "timestamp"
+        updated_at:
+          type: "timestamp"
+      xml:
+        name: "CreditPackage"
+    Transaction:
+      type: "object"
+      properties:
+        id:
+          type: "integer"
+          format: "int64"
+        old_user_wallet_balance:
+          type: "integer"
+        price:
+          type: "integer"
+        new_user_wallet_balance:
+          type: "integer"
+        is_incremental:
+          type: "boolean"
+        user_id:
+          type: "fk"
+          format: "int64"
+        transactionable_id:
+          type: "fk"
+          format: "int64"
+        transactionable_type:
+          type: "string"
+        deleted_at:
+          type: "timestamp"
+        created_at:
+          type: "timestamp"
+        updated_at:
+          type: "timestamp"
+      xml:
+        name: "Transaction"
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+security:
+  - BearerAuth: []
+tags:
+  - name: User
+  - name: Product
+  - name: CreditPackage
+  - name: Transaction
+
+  # - name: Role
+  # - name: Permission
+  # - name: category
+  # - name: PriceList
