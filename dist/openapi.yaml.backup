@@ -235,7 +235,11 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/responses/ArrayOfTransactions'
+                oneOf:
+                  - $ref: '#/components/responses/ArrayOfTransactionsWithProduct'
+                  - $ref: '#/components/responses/ArrayOfTransactionsWithCreditPackages'
+                discriminator:
+                  propertyName: objectType
         '401':
           description: Authorization information is missing or invalid.
         '5XX':
@@ -464,11 +468,10 @@ components:
           type: "object"
           $ref: '#/components/responses/User'
         transactionable:
-          type: object
-          properties:
+          type: "object"
           oneOf:
-          - $ref: '#/components/responses/CreditPackage'
-          - $ref: '#/components/responses/Product'
+            - $ref: '#/components/responses/CreditPackage'
+            - $ref: '#/components/responses/Product'
         links:
           type: "object"
           properties:
@@ -476,10 +479,66 @@ components:
               type: "string"
             parent:
               type: "string"
-    ArrayOfTransactions:
+    TransactionWithProduct:
+      type: "object"
+      properties:
+        id:
+          type: "integer"
+        old_user_wallet_balance:
+          type: "integer"
+        price:
+          type: "integer"
+        new_user_wallet_balance:
+          type: "integer"
+        is_increment:
+          type: "boolean"
+        user:
+          type: "object"
+          $ref: '#/components/responses/User'
+        transactionable:
+          type: "object"
+          $ref: '#/components/responses/Product'
+        links:
+          type: "object"
+          properties:
+            self:
+              type: "string"
+            parent:
+              type: "string"
+    TransactionWithCreditPackages:
+      type: "object"
+      properties:
+        id:
+          type: "integer"
+        old_user_wallet_balance:
+          type: "integer"
+        price:
+          type: "integer"
+        new_user_wallet_balance:
+          type: "integer"
+        is_increment:
+          type: "boolean"
+        user:
+          type: "object"
+          $ref: '#/components/responses/User'
+        transactionable:
+          type: "object"
+          $ref: '#/components/responses/CreditPackage'
+        links:
+          type: "object"
+          properties:
+            self:
+              type: "string"
+            parent:
+              type: "string"
+    ArrayOfTransactionsWithProduct:
       type: "array"
       items:
-        $ref: '#/components/responses/Transaction'
+        $ref: '#/components/responses/TransactionWithProduct'
+    ArrayOfTransactionsWithCreditPackages:
+      type: "array"
+      items:
+        $ref: '#/components/responses/TransactionWithCreditPackages'
 
 
 securitySchemes:
