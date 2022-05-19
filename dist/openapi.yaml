@@ -146,6 +146,74 @@ paths:
       deprecated: false
 
 
+  /credit-packages:
+    get:
+      tags:
+        - CreditPackage
+      summary: "get all CreditPackages"
+      parameters:
+        - name: Content-Type
+          in: header
+          description: ""
+          required: true
+          schema:
+            enum:
+              - application/json
+            type: string
+            example: application/json
+      responses:
+        '200':
+          description: A list of credit-packages
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/ArrayOfCreditPackages'
+        '401':
+          description: Authorization information is missing or invalid.
+        '5XX':
+          description: Unexpected error.
+      security: []
+      deprecated: false
+  /credit-packages/{credit-package:id}:
+    get:
+      tags:
+        - CreditPackage
+      summary: "show CreditPackage details"
+      parameters:
+        - name: Content-Type
+          in: header
+          description: ""
+          required: true
+          schema:
+            enum:
+              - application/json
+            type: string
+            example: application/json
+        - name: credit-package:id
+          in: path
+          description: "credit-package id"
+          required: true
+          schema:
+            type: integer
+            example: 1
+      responses:
+        '200':
+          description: show credit-package
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/CreditPackage'
+        '401':
+          description: Authorization information is missing or invalid.
+        '404':
+          description: A credit-package with the specified ID was not found.
+        '5XX':
+          description: Unexpected error.
+      security: []
+      deprecated: false
+
+
+
 
 
 components:
@@ -289,6 +357,28 @@ components:
       type: "array"
       items:
         $ref: '#/components/responses/Product'
+    CreditPackage:
+      type: "object"
+      properties:
+        id:
+          type: "integer"
+        name:
+          type: "string"
+        price:
+          type: "integer"
+        payment_deadline_by_days:
+          type: "integer"
+        links:
+          type: "object"
+          properties:
+            self:
+              type: "string"
+            parent:
+              type: "string"
+    ArrayOfCreditPackages:
+      type: "array"
+      items:
+        $ref: '#/components/responses/CreditPackage'
 
 
 securitySchemes:
