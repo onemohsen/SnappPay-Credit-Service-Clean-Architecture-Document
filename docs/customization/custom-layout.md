@@ -40,7 +40,7 @@ const OperationsLayoutPlugin = () => {
 // Provide the plugin to Swagger-UI, and select OperationsLayout
 // as the layout for Swagger-UI
 SwaggerUI({
-  url: "https://petstore.swagger.io/v2/swagger.json",
+  url: "openapi.yaml",
   plugins: [ OperationsLayoutPlugin ],
   layout: "OperationsLayout"
 })
